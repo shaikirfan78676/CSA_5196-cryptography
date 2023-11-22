@@ -1,0 +1,27 @@
+#include <stdio.h>
+int gcd(int a, int b)
+ {
+    if (b == 0)
+	 {
+        return a;
+    }
+    return gcd(b, a % b);
+}
+int isCoprime(int a)
+ {
+    return gcd(a, 26) == 1;
+}
+int main() 
+{
+    int a;
+	   printf("Enter the value of 'a': ");
+    scanf("%d", &a);
+    if (isCoprime(a)) 
+	{
+        printf("%d is allowed.\n", a);
+    } else {
+        printf("%d is not allowed. Choose a different 'a' that is coprime with 26.\n", a);
+    }
+
+    return 0;
+}
