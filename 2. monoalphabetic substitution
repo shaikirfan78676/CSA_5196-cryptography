@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#define ALPHABET_SIZE 26
+void encrypt(char plaintext[], char key[]);
+void decrypt(char ciphertext[], char key[]);
+int main() {
+    char plaintext[1000];
+    char key[ALPHABET_SIZE + 1];
+    printf("Enter the plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+   if (strlen(plaintext) > 0 && plaintext[strlen(plaintext) - 1] == '\n')
+    {
+        plaintext[strlen(plaintext) - 1] = '\0';
+    }
+    printf("Enter the key (26 unique letters): ");
+    fgets(key, sizeof(key), stdin);
+    if (strlen(key) > 0 && key[strlen(key) - 1] == '\n')
+	 {
+        key[strlen(key) - 1] = '\0';
+    }
+    if (strlen(key) != ALPHABET_SIZE)
+	 {
+        printf("Key should contain 26 unique letters.\n");
+        return 1;
+    }
+    for (int i = 0; i < ALPHABET_SIZE; i++) 
+	{
+        if (!isalpha(key[i])) {
+            printf("Key should contain only letters.\n");
+            return 1;
+        }
+    }
+    encrypt(plaintext, key);
+    printf("Encrypted text: %s\n", plaintext);
+    decrypt(plaintext, key);
+    printf("Decrypted text: %s\n", plaintext);
+    return 0;
+}
+void encrypt(char plaintext[], char key[])
+ {
+    int i;
+    for (i = 0; plaintext[i] != '\0'; i++)
+	 {
+        if (isalpha(plaintext[i]))
+		 {
+            if (islower(plaintext[i])) 
+			{
+                plaintext[i] = key[plaintext[i] - 'a'];
+            } else {
+                plaintext[i] = toupper(key[plaintext[i] - 'A']);
+            }
+        }
+    }
+}
+void decrypt(char ciphertext[], char key[])
+ {
+    char reversedKey[ALPHABET_SIZE + 1];
+    int i;
+    for (i = 0; i < ALPHABET_SIZE; i++)
+	 {
+        reversedKey[key[i] - 'A'] = 'A' + i;
+    }
+    reversedKey[ALPHABET_SIZE] = '\0';
+    encrypt(ciphertext, reversedKey);
+}
